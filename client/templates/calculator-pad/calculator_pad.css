@@ -1,0 +1,25 @@
+.num {
+  background: #6391FE;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.num:hover {
+  background: #4674e2;
+}
+
+.nopadding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.operator {
+  background: #5283F8;
+}
+
+.operator:hover {
+  background: #4674e2;
+}

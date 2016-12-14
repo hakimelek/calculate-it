@@ -1,0 +1,38 @@
+body {
+  background-color: #F0F0F0;
+}
+
+.expression {
+  min-height: 50px;
+  background: #8FAEF5;
+  width: 100%;
+  color: white;
+}
+
+.expression-text {
+  color: white !important;
+  font-size: 2.2em;
+  padding-left: 50px !important;
+  padding-top: 15px;
+}
+
+.expression:hover
+{
+  -webkit-animation: swing 1s ease;
+  animation: swing 1s ease;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
+
+.history-item {
+  color: gray;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px solid gray;
+}
+
+.history {
+  margin: 0!important;
+}
+

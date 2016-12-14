@@ -1,0 +1,11 @@
+<template name="CalculatorResult">
+  <div class="history">
+    {{#each calculations}}
+      <div class="history-item">{{expression}} = {{result}}</div>
+    {{/each}}
+  </div>
+  <div class="ui transparent icon input expression">
+    <input class="expression-text" type="text" value="{{currentExpression}}">
+    <i class="angle left icon del"></i>
+  </div>
+</template>
