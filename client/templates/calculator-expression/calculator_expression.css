@@ -1,0 +1,28 @@
+.expression {
+  min-height: 50px;
+  background: #8FAEF5;
+  width: 100%;
+  color: white;
+}
+
+.expression-text {
+  color: white !important;
+  font-size: 2.2em;
+  padding-left: 50px !important;
+  padding-top: 15px;
+  background: #8FAEF5 !important;
+}
+
+@keyframes highlight {
+  0% {
+    background: red
+  }
+  100% {
+    background: #8FAEF5;
+  }
+}
+
+.del {
+  color: white !important;
+  background: #5283F8 !important;
+}

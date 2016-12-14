@@ -1,0 +1,14 @@
+<template name="CalculatorHistory">
+  <div class="history">
+    {{#each calculations}}
+      {{>HistoryItem}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="HistoryItem">
+  <div class="history-item" style="{ color: #{{sessionColor}} }">
+    <i class="ui icon angle right small sessionColor"></i>
+    {{expression}} = {{result}}
+  </div>
+</template>

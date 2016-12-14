@@ -1,6 +1,8 @@
 var init;
 var previousCharIsOperator;
 var swapLastOperator;
+var hashCode;
+var intToRGB;
 
 Template.CalculatorPad.helpers({
 
@@ -82,9 +84,18 @@ Template.CalculatorPad.events({
     e.preventDefault();
   },
   'click .equals': function (e, tmpl) {
-    Meteor.call('calculate', Session.get('expression'), function (error, response) {
-      if (error) {
+    var sessionId = Meteor.default_connection._lastSessionId;
 
+    var calculation = {
+      sessionId: sessionId,
+      sessionColor: intToRGB(hashCode(sessionId)),
+      expression: Session.get('expression')
+    }
+
+    Meteor.call('calculate', calculation, function (error, response) {
+      if (error) {
+        $('.expression-text').css('animation', 'highlight 2s');
+        setTimeout(function(){ $('.expression-text').css('animation', ''); }, 3000);
         throw error;
       }
       init();
@@ -111,4 +122,23 @@ swapLastOperator = function (exp, char) {
 previousCharIsOperator = function (exp) {
   var lastChar = exp[length-1];
   return lastChar === '-' || lastChar === '*' || lastChar === '/' || lastChar === '+';
+}
+
+// Compute hex color code for an arbitrary string
+// http://stackoverflow.com/a/3426956/5325953
+
+hashCode = function (str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+}
+
+intToRGB = function (i){
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
 }
