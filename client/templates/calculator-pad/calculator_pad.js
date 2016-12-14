@@ -1,13 +1,13 @@
+// Function definition
 var init;
 var previousCharIsOperator;
 var swapLastOperator;
 var hashCode;
 var intToRGB;
+var getLastOperand;
+var isOperator;
 
-Template.CalculatorPad.helpers({
-
-});
-
+// Events for each button
 Template.CalculatorPad.events({
   'click .one': function (e, tmpl) {
     Session.set('expression', Session.get('expression')+'1');
@@ -46,15 +46,18 @@ Template.CalculatorPad.events({
     e.preventDefault();
   },
   'click .zero': function (e, tmpl) {
-
-    if (Session.get('expression') === '0') {}
-    Session.set('expression', Session.get('expression')+'0');
+    var exp = Session.get('expression');
+    var lastOperand = getLastOperand(exp);
+    if (lastOperand.indexOf('.') > -1 || lastOperand[0] !== '0')
+      Session.set('expression', Session.get('expression')+'0');
     e.preventDefault();
   },
+
+  // If the last char is an operator just swap it with the
+  // clicked operator
   'click .minus': function (e, tmpl) {
     var exp = Session.get('expression');
     if (previousCharIsOperator(exp)) {
-      console.log('yo');
       exp = swapLastOperator(exp, '-');
       Session.set('expression', exp);
     }
@@ -64,23 +67,45 @@ Template.CalculatorPad.events({
     e.preventDefault();
   },
   'click .plus': function (e, tmpl) {
-    Session.set('expression', Session.get('expression')+'+');
+    var exp = Session.get('expression');
+    if (previousCharIsOperator(exp)) {
+      exp = swapLastOperator(exp, '+');
+      Session.set('expression', exp);
+    }
+    else {
+      Session.set('expression', Session.get('expression')+'+');
+    }
     e.preventDefault();
   },
   'click .over': function (e, tmpl) {
-    Session.set('expression', Session.get('expression')+'/');
+    var exp = Session.get('expression');
+    if (previousCharIsOperator(exp)) {
+      exp = swapLastOperator(exp, '/');
+      Session.set('expression', exp);
+    }
+    else {
+      Session.set('expression', Session.get('expression')+'/');
+    }
     e.preventDefault();
   },
   'click .times': function (e, tmpl) {
-    Session.set('expression', Session.get('expression')+'*');
+    var exp = Session.get('expression');
+    if (previousCharIsOperator(exp)) {
+      exp = swapLastOperator(exp, '*');
+      Session.set('expression', exp);
+    }
+    else {
+      Session.set('expression', Session.get('expression')+'*');
+    }
     e.preventDefault();
   },
+
+  // If previous char is a dot, do not add a new one.
   'click .dot': function (e, tmpl) {
-    Session.set('expression', Session.get('expression')+'.');
-    e.preventDefault();
-  },
-  'click .C': function (e, tmpl) {
-    init();
+    var exp = Session.get('expression');
+    var lastOperand = getLastOperand(exp);
+    if (lastOperand.indexOf('.') === -1)
+      Session.set('expression', Session.get('expression')+'.');
     e.preventDefault();
   },
   'click .equals': function (e, tmpl) {
@@ -115,30 +140,50 @@ init = function () {
   Session.set('expression', '');
 }
 
+// Useful helper functions:
+
+// Function for swaping the last char of the expression
+// with a new character
 swapLastOperator = function (exp, char) {
-  return exp.substr(0, exp.length-1) + char + s.substr(exp.length);
+  return exp.substr(0, exp.length-1) + char + exp.substr(exp.length);
 }
 
+// Function for checking if the last character in the current
+// expression is an operator
 previousCharIsOperator = function (exp) {
-  var lastChar = exp[length-1];
-  return lastChar === '-' || lastChar === '*' || lastChar === '/' || lastChar === '+';
+  var lastChar = exp[exp.length-1];
+  return isOperator(lastChar);
 }
 
-// Compute hex color code for an arbitrary string
-// http://stackoverflow.com/a/3426956/5325953
+getLastOperand = function (exp) {
+  var lastChar = exp[exp.length-1];
+  if (isOperator(lastChar)) return '';
+  for (var i=exp.length-1; i>=0; i--) {
+    if (isOperator(exp[i]))
+      return exp.substr(i+1, exp.length-1);
+  }
+  return exp;
+}
 
+isOperator = function (char) {
+  return (char === '-' || char === '*' || char === '/' || char === '+');
+}
+
+// Functions to compute hex color code for an arbitrary string
+// http://stackoverflow.com/a/3426956/5325953
 hashCode = function (str) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-       hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+     hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  return hash;
 }
 
 intToRGB = function (i){
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
+  var c = (i & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
 
-    return "00000".substring(0, 6 - c.length) + c;
+  return "00000".substring(0, 6 - c.length) + c;
 }

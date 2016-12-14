@@ -20,3 +20,4 @@ aldeed:collection2
 raix:handlebar-helpers
 semantic:ui-css@=2.1.2
 session
+practicalmeteor:mocha

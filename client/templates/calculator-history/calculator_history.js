@@ -10,7 +10,3 @@ Template.CalculatorHistory.onCreated(function () {
       self.subscribe('calculations');
   });
 });
-
-Template.CalculatorHistory.events({
-
-});
