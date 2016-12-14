@@ -17,7 +17,6 @@ Template.CalculatorResult.onCreated(function () {
 Template.CalculatorResult.events({
   'click .del': function (e, tmpl) {
     var exp = Session.get('expression');
-    console.log('delete');
     Session.set('expression', exp.substring(0, exp.length-1));
     e.preventDefault();
   }

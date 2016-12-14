@@ -52,6 +52,7 @@ Template.CalculatorPad.events({
   'click .minus': function (e, tmpl) {
     var exp = Session.get('expression');
     if (previousCharIsOperator(exp)) {
+      console.log('yo');
       exp = swapLastOperator(exp, '-');
       Session.set('expression', exp);
     }
@@ -108,7 +109,6 @@ swapLastOperator = function (exp, char) {
 }
 
 previousCharIsOperator = function (exp) {
-  console.log('yo');
   var lastChar = exp[length-1];
   return lastChar === '-' || lastChar === '*' || lastChar === '/' || lastChar === '+';
 }

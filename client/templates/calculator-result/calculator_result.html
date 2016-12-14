@@ -4,8 +4,10 @@
       <div class="history-item">{{expression}} = {{result}}</div>
     {{/each}}
   </div>
-  <div class="ui transparent icon input expression">
+  <div class="ui transparent action input expression">
     <input class="expression-text" type="text" value="{{currentExpression}}">
-    <i class="angle left icon del"></i>
+    <button class="ui icon button del">
+      <i class="angle left icon"></i>
+    </button>
   </div>
 </template>
