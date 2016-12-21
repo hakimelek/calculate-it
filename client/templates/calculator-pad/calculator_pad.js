@@ -10,7 +10,12 @@ var isOperator;
 // Events for each button
 Template.CalculatorPad.events({
   'click .one': function (e, tmpl) {
-    Session.set('expression', Session.get('expression')+'1');
+    var exp = Session.get('expression');
+    var lastOperand = getLastOperand(exp);
+    if (lastOperand[0] === 0)
+      Session.set('expression', Session.set('expression').substr(0, exp.length-2));
+
+    Session.set('expression', Session.get('expression')+'1')
     e.preventDefault();
   },
   'click .two': function (e, tmpl) {
@@ -155,6 +160,7 @@ previousCharIsOperator = function (exp) {
   return isOperator(lastChar);
 }
 
+// Function that returns the last operand
 getLastOperand = function (exp) {
   var lastChar = exp[exp.length-1];
   if (isOperator(lastChar)) return '';
@@ -165,6 +171,7 @@ getLastOperand = function (exp) {
   return exp;
 }
 
+// Function that checks if the character is an operator
 isOperator = function (char) {
   return (char === '-' || char === '*' || char === '/' || char === '+');
 }
@@ -187,3 +194,5 @@ intToRGB = function (i){
 
   return "00000".substring(0, 6 - c.length) + c;
 }
+
+export { init, isOperator };

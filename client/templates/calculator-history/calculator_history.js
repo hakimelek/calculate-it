@@ -1,6 +1,6 @@
 Template.CalculatorHistory.helpers({
   calculations: function () {
-    return Calculations.find();
+    return Calculations.find({}, {sort: {createdAt: 1}});
   }
 });
 
